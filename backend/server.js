@@ -18,7 +18,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
 
-app.use('/', (req, res) =>{
+app.get('/', (req, res) =>{
     res.send('Server is up and running');
 })
 
