@@ -20,10 +20,10 @@ export const userAuth = (req, res, next) =>{
         const decodeToken = jwt.verify(token, process.env.SECRET);
         const userId = decodeToken.userId;
         const airtableId = decodeToken.airtableId;
-
+        console.log("from auth ", userId)
         req.userId = userId;
         req.airtableId = airtableId;
-        
+
         next();
     }
     catch(err){

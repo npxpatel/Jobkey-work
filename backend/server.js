@@ -4,8 +4,7 @@ import userRoutes from './routes/userRoutes.js';
 import dotenv from 'dotenv';
 
 import productRoutes from './routes/productRoutes.js';
-
-// import orderRoutes from './routes/orderRoutes';
+import orderRoutes from './routes/orderRoutes.js';
 
 const PORT = process.env.PORT;
 dotenv.config();
@@ -16,7 +15,7 @@ app.use(json());
 
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes);
-// app.use('/api/orders', orderRoutes);
+app.use('/api/orders', orderRoutes);
 
 
 app.use('/', (req, res) =>{

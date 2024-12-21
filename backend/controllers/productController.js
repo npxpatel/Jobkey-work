@@ -74,13 +74,13 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { productName, description, price, imgUrl } = req.body;
-    const owner = req.userId;
+    const owner = req.airtableId;
 
     try {
        
         const product = await AirtableBase('Products').find(id);
 
-        if (!product || product.fields.owner !== owner) {
+        if (!product || product.fields.owner[0] !== owner) {
             return res.status(403).json({ message: "Unauthorized or product not found" });
         }
 
