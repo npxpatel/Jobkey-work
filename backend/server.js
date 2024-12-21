@@ -3,7 +3,8 @@ import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import dotenv from 'dotenv';
 
-// import productRoutes from './routes/productRoutes';
+import productRoutes from './routes/productRoutes.js';
+
 // import orderRoutes from './routes/orderRoutes';
 
 const PORT = process.env.PORT;
@@ -14,7 +15,7 @@ app.use(cors());
 app.use(json());
 
 app.use('/api/users', userRoutes)
-// app.use('/api/products', productRoutes);
+app.use('/api/products', productRoutes);
 // app.use('/api/orders', orderRoutes);
 
 

@@ -1,5 +1,6 @@
-const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'NIRAJ'
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config()
 
 export const userAuth = (req, res, next) =>{
     const authHeader = req.header('Authorization');
@@ -16,9 +17,13 @@ export const userAuth = (req, res, next) =>{
 
     try{
         //verify the token
-        const decodeToken = jwt.verify(token, SECRET_KEY);
+        const decodeToken = jwt.verify(token, process.env.SECRET);
         const userId = decodeToken.userId;
+        const airtableId = decodeToken.airtableId;
+
         req.userId = userId;
+        req.airtableId = airtableId;
+        
         next();
     }
     catch(err){
