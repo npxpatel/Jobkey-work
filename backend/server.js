@@ -1,18 +1,21 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
-const userAuth = require('./middleware/userAuth')
-const productRoutes = require('./routes/productRoutes')
-const orderRoutes = require('./routes/orderRoutes')
+import express, { json } from 'express';
+import cors from 'cors';
+import userRoutes from './routes/userRoutes.js';
+import dotenv from 'dotenv';
+
+// import productRoutes from './routes/productRoutes';
+// import orderRoutes from './routes/orderRoutes';
 
 const PORT = process.env.PORT;
-require('dotenv').config();
+dotenv.config();
+const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(json());
 
-app.use('/api/products', productRoutes);
-app.use('/api/orders',orderRoutes);
+app.use('/api/users', userRoutes)
+// app.use('/api/products', productRoutes);
+// app.use('/api/orders', orderRoutes);
 
 
 app.use('/', (req, res) =>{
