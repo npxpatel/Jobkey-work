@@ -11,7 +11,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const BACKEND_URL = "https://jobkey-work-git-main-btrezzys-projects.vercel.app"
+const BACKEND_URL = "https://jobkey-work-git-main-btrezzys-projects.vercel.app"
  
 
   const handleSubmit = async (e) => {

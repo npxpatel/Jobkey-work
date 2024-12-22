@@ -16,7 +16,7 @@ function OrderPlacement() {
       
     const fetchProducts = async () =>{
       try{
-           const response = await axios.get(`http://localhost:5000/api/products/${productId}`);
+           const response = await axios.get(`https://jobkey-work-git-main-btrezzys-projects.vercel.app/api/products/${productId}`);
            console.log('Products fetched', response.data);
            setProduct(response.data);
       }
@@ -35,7 +35,7 @@ function OrderPlacement() {
     e.preventDefault();
     
     try {
-      const response = await axios.post('http://localhost:5000/api/orders/createOrder', 
+      const response = await axios.post('https://jobkey-work-git-main-btrezzys-projects.vercel.app/api/orders/createOrder', 
       {
         productId,
         quantity,

@@ -14,7 +14,7 @@ function MyOrders() {
        
         const fetchOrders = async () =>{
             try{
-                const response = await axios.get('http://localhost:5000/api/orders', {
+                const response = await axios.get('https://jobkey-work-git-main-btrezzys-projects.vercel.app/api/orders', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },

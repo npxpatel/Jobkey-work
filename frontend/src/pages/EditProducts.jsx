@@ -12,7 +12,7 @@ function EditProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products/my-products', {
+        const response = await axios.get('https://jobkey-work-git-main-btrezzys-projects.vercel.app/api/products/my-products', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         setProducts(response.data);
@@ -37,7 +37,7 @@ function EditProducts() {
       const { id, name, description, price, imageUrl } = editingProduct;
 
       const response = await axios.put(
-        `http://localhost:5000/api/products/${id}`,
+       `https://jobkey-work-git-main-btrezzys-projects.vercel.app/${id}`,
         { productName: name, description, price, imgUrl: imageUrl },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
