@@ -1,67 +1,71 @@
 import AirtableBase from "../database/airtableConfig.js";
 import { v4 as uuidv4 } from 'uuid';
 
-export const createOrder = async(req, res) =>{
-    const {productId, quantity} = req.body;
+export const createOrder = async (req, res) => {
+    const { productId, quantity } = req.body;
     const userId = req.airtableId;
-    
 
-    if(! productId || !quantity){
+    const quantityString = quantity.toString();
+
+   
+    if (!productId || !quantity) {
         return res.status(400).json({
-            msg: "product ID and quantity are required"
-        })
+            msg: "Product ID and quantity are required"
+        });
     }
 
     try {
-        
-         
-        const productRecords = await AirtableBase('Products')
-            .select({ filterByFormula: `{pid} = "${productId}"` })
-            .firstPage();
 
-        if(productRecords.length === 0){
+        const productRecord = await AirtableBase('Products').find(productId);
+
+        if (!productRecord) {
             return res.status(404).json({
-                msg : "Product not found"
-            }
-        )}
-         
-        
-        const productAirtableId = productRecords[0].id;
-        const product = productRecords[0].fields;
+                msg: "Product not found"
+            });
+        }
 
+        const product = productRecord.fields;
         const price = product.price;
         const totalPrice = price * quantity;
 
+      
+    
         const orderId = uuidv4();
 
+      
         await AirtableBase('Orders').create([
             {
-                fields:{
+                fields: {
                     orderId,
-                    buyerId : [userId],
-                    productId : [productAirtableId],
+                    buyerId: [userId], 
+                    productId: [productId], 
                     totalPrice,
-                    status : "Pending",
-                    quantity
+                    status: "Pending",
+                    quantity : quantityString
                 }
             }
-        ])
+        ]);
 
+       
         res.status(201).json({
-            msg : "Order created successfully",
-            orderId,
+            msg: "Order created successfully",
+            orderId
+        });
 
-        })
-        
-    }
-
-    catch(error){
+    } catch (error) {
         console.error(error);
+
+    
+        if (error.statusCode === 404) {
+            return res.status(404).json({ msg: "Product not found in Airtable" });
+        }
+
         return res.status(500).json({
-            msg : "Internal Server Error"
-        })
+            msg: "Internal Server Error"
+        });
     }
-}
+};
+
 
 
 export const deleteOrder = async(req, res) =>{

@@ -26,6 +26,63 @@ export const getProducts = async (req, res) => {
 };
 
 
+export const getMyProducts = async (req, res) => {
+    const ownerId = req.userId;
+    console.log("owner id", ownerId);
+
+    try {
+        const products = await AirtableBase('Products')
+            .select({
+                filterByFormula: `{owner} = '${ownerId}'`,
+            })
+            .all();
+       
+
+        // Format records
+       
+        const formattedProducts = products.map(product => ({
+            id: product.id,
+            ...product.fields
+        }));
+
+        return res.status(200).json(formattedProducts);
+
+    } catch (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+             error: "Failed to fetch products" 
+        });
+    }
+
+}
+
+export const getProduct = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        
+        const product = await AirtableBase('Products').find(id);
+        console.log(product);
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        return res.status(200).json({ id: product.id, ...product.fields });
+
+    } catch (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+             error: "Failed to fetch product" 
+        });
+    }
+
+}
+
 export const createProduct = async (req, res) => {
 
     const { productName, description, price, imgUrl } = req.body;
