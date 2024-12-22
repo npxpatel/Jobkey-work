@@ -8,6 +8,8 @@ function ProductList() {
   
 
     const [products, setProducts] = useState([]);
+    const [loading, setloading] = useState(true);
+
     const BACKEND_URL = "https://jobkey-work-git-main-btrezzys-projects.vercel.app"
 
     const fetchProducts = async () =>{
@@ -17,6 +19,7 @@ function ProductList() {
         setProducts(response.data);
 
         console.log('Products fetched', response.data);
+        setloading(false);
       }
       catch(error){
         console.error('Error fetching products', error);
@@ -30,10 +33,18 @@ function ProductList() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {products.map(product => (
+     
+
+      {loading  ? <div>Loading the products for you...</div>
+      : (
+       products.map(product => (
         <ProductItem key={product.id} product={product} />
-      ))}
+       ))
+      )} 
+
     </div>
+
+    
   );
 }
 
